@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
-const userLoginSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username : {
         type : String,
         required: true,
@@ -23,11 +25,68 @@ const userLoginSchema = new mongoose.Schema({
         required : true,
         trim : true,
         min : 7
-    }
+    },
+    name : {
+        type : String,
+        required : true
+    },
+    university :{
+        type : String,
+        required : true
+    },
+    course:{
+        type : String,
+        required : true    
+    },
+    location : {
+        type : String,
+        required : true
+    },
+    gender : {
+        type : String,
+        required : false
+    },
+    tokens : [{
+        token :{
+            type : String,
+            required : true
+        }
+    }]    
 })
 
-const UserLogin = new mongoose.model('UserLogin',userLoginSchema)
+
+userSchema.methods.getAuthToken = async function(){
+    const user = this
+    const token = jwt.sign({_id:user.id.toString()},process.env.SECRET_KEY)
+    user.tokens = user.tokens.concat({token})
+    await user.save()
+    return token
+
+}
+
+userSchema.statics.findByCredentials = async (username,password)=>{
+    const user = await User.findOne({username})
+    if(!user){
+        throw new Error('Login Error')
+    }
+    const isMatch = await bcrypt.compare(password,user.password)
+    if(!isMatch){
+        throw new Error('Password Mismathced')
+    }
+    return user
+    
+}
+
+userSchema.pre('save',async function(next){
+    const user = this
+    if(user.isModified('password')){
+        user.password = await bcrypt.hash(user.password,5)
+    }
+    next()
+})
+
+const User = mongoose.model('User',userSchema)
 
 module.exports = {
-    UserLogin
+    User
 }
