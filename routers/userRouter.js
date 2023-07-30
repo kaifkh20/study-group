@@ -22,11 +22,15 @@ router.get('/info',auth,async(req,res)=>{
     res.end()
 })
 
+router.get('/signup',async(req,res)=>{
+    res.render('signup')
+})
+
 router.post('/signup',async(req,res)=>{
     const user = new User(req.body)
     try{
         await user.save()
-        res.status(200).send({user})
+        res.redirect('/')
     }catch(e){
         console.log(e);
         res.end()
@@ -42,6 +46,11 @@ router.post('/login',async(req,res)=>{
     }catch(e){
         res.status(500).send("Error")
     }
+})
+
+router.get('/logout',async(req,res)=>{
+    res.clearCookie('token')
+    res.redirect('/')
 })
 
 module.exports = router

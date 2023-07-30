@@ -1,0 +1,38 @@
+<%- include('partials/header.ejs') %>
+
+<h1>Signup Form</h1>
+  <form action="/signup" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="university">University:</label>
+    <input type="text" id="university" name="university" required>
+
+    <label for="course">Course:</label>
+    <input type="text" id="course" name="course" required>
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" required>
+
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required>
+      <option value="">Select Gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+
+    <button type="submit">Sign Up</button>
+  </form>
+
+
+<%- include('partials/footer.ejs') %>
