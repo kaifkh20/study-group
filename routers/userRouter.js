@@ -1,12 +1,21 @@
 const express = require('express')
 const {User} = require('../model/user')
 const router = express.Router()
-const auth = require('../auth')
+const auth = require('../auth/auth')
+const checkLogin = require('../auth/checkLogin')
+
+router.get('/',checkLogin,async(req,res)=>{
+    res.render('login')
+})
+
 
 router.get('/info',auth,async(req,res)=>{
     try{
         const user = await User.findOne({_id:req.user.id})
-        res.status(500).send(user)
+        res.render('profile',{
+            username : user.username,
+            email : user.email
+        })
     }catch(e){
         console.log(e);
     }
@@ -28,10 +37,10 @@ router.post('/login',async(req,res)=>{
     try{
         const user = await User.findByCredentials(req.body.username,req.body.password)
         const token = await user.getAuthToken()
-        res.status(200).send({user,token})    
+        res.cookie('token',token,{httpOnly:true,secure:true})
+        res.redirect('/info')  
     }catch(e){
-        console.log(e);
-        res.status(500).send()
+        res.status(500).send("Error")
     }
 })
 
