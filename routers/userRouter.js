@@ -39,11 +39,13 @@ router.post('/signup',async(req,res)=>{
 
 router.post('/login',async(req,res)=>{
     try{
+        // console.log(req.body);
         const user = await User.findByCredentials(req.body.username,req.body.password)
         const token = await user.getAuthToken()
         res.cookie('token',token,{httpOnly:true,secure:true})
         res.redirect('/info')  
     }catch(e){
+        console.log(e);
         res.status(500).send("Error")
     }
 })

@@ -1,12 +1,38 @@
 
 <%- include('partials/header.ejs') %>
-  <div>
-    <h1>Login</h1>
-    <form action="/login" method="post">
-      <input type="username" name="username" placeholder="Username">
-      <input type="password" name="password" placeholder="Password">
-      <input type="submit" value="Login">
-    </form>
-  </div>
+<div id="outer-box-1">
+
+
+    <div class="outer-box">
+        <div class="inner-box">
+            <header class="signup-header">
+                <h2>Login</h2>
+                <!-- <p>it just take 30 second</p> -->
+            </header>
+
+            <main class="signup-body">
+                <form action="/login" method="post">
+                    <p>
+                        <label for="username">Username</label>
+                        <input type="username" id="username" name="username" placeholder="Enter Your Username" required>
+                    </p>
+                    <p>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter Your Passowrd" required>
+                    </p>
+                    <p>
+                        <input type="submit" id="submit" value="Login">
+
+
+                    </p>
+                </form>
+            </main>
+
+            <footer class="signup-footer">
+                <p>Dont Have Account <a href="/signup">SignUp</a></p>
+            </footer>
+          </div>
+        </div>
+    </div>
 
 <%- include('partials/footer.ejs') %>

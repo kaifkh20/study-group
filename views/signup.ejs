@@ -1,38 +1,62 @@
 <%- include('partials/header.ejs') %>
 
-<h1>Signup Form</h1>
-  <form action="/signup" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
+<div id="outer-box-1">
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+<div class="outer-box">
+  <div class="inner-box">
+      <header class="signup-header">
+          <h2>Signup</h2>
+          <!-- <p>it just take 30 second</p> -->
+      </header>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+      <main class="signup-body">
+          <form action="#">
 
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+            <p>
+                <label for="username">Username</label>
+                <input type="username" id="username" name="username" placeholder="Enter Your Username" required class="input-box">
+            </p>
 
-    <label for="university">University:</label>
-    <input type="text" id="university" name="university" required>
+              <p>
+                  <label for="fullname">Full name</label>
+                  <input type="text" id="fullname" placeholder="Jhon Dee" required  class="input-box">
+              </p>
+              <p>
+                  <label for="email">Email</label>
+                  <input type="email" id="email" placeholder="Eg: xyz@gmail.com" required class="input-box">
+              </p>
+              <p>
+                  <label for="password">Password</label>
+                  <input type="password" id="password" placeholder="at least 8 character" required class="input-box">
+              </p>
+              <p>
+                  <label for="password">Confirm Password</label>
+                  <input type="password" id="password" placeholder="at least 8 character" required class="input-box">
+              </p>
+              <p>
+                  <input type="submit" id="submit" value="Create Account">
 
-    <label for="course">Course:</label>
-    <input type="text" id="course" name="course" required>
+              </p>
+          </form>
+      </main>
 
-    <label for="location">Location:</label>
-    <input type="text" id="location" name="location" required>
+      <footer class="signup-footer">
+          <p>Already Have An Account <a href="/">Login</a></p>
+      </footer>
+    </div>
+  </div>
+</div>
+  <script>
+    const submit = document.querySelector("#submit")
+    const inputbox = document.querySelector(".input-box")
 
-    <label for="gender">Gender:</label>
-    <select id="gender" name="gender" required>
-      <option value="">Select Gender</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="other">Other</option>
-    </select>
+    submit.addEventListener('click',()=>{
+        if (inputbox.value == "") {
+            alert("Input Required");
+            return false;
+        }
+        alert("your details are submitted refresh the page to login")
 
-    <button type="submit">Sign Up</button>
-  </form>
-
-
+    })
+  </script>
 <%- include('partials/footer.ejs') %>
