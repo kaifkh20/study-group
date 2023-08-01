@@ -4,7 +4,7 @@ const app = express()
 const userRouter = require('./userRouter')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-require('dotenv').config('../')
+require('dotenv').config('./')
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended:false}))
