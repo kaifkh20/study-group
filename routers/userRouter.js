@@ -5,9 +5,12 @@ const auth = require('../auth/auth')
 const checkLogin = require('../auth/checkLogin')
 
 router.get('/',checkLogin,async(req,res)=>{
-    res.render('login')
+    res.redirect('/login')
 })
 
+router.get('/login',async(req,res)=>{
+    res.render('login')
+})
 
 router.get('/info',auth,async(req,res)=>{
     try{
@@ -32,20 +35,28 @@ router.post('/signup',async(req,res)=>{
         await user.save()
         res.redirect('/')
     }catch(e){
-        res.redirect('/signup')
+        const countUsername = await User.count({username : req.body.username});
+        const countEmail = await User.count({email:req.body.email});
+        if(countUsername>0 && countEmail==0){
+            return res.redirect('/signup?error='+encodeURIComponent('Username Exists'))
+        }
+        else if(countEmail>0 && countUsername==0){
+            return res.redirect('/signup?error='+encodeURIComponent('Email in Use'))
+        }
+        return res.redirect('signup?error='+encodeURIComponent('Username and Email in Use'))
+        
     }
 })
 
 router.post('/login',async(req,res)=>{
     try{
-        // console.log(req.body);
         const user = await User.findByCredentials(req.body.username,req.body.password)
         const token = await user.getAuthToken()
         res.cookie('token',token,{httpOnly:true,secure:true})
         res.redirect('/info')  
     }catch(e){
         console.log(e);
-        res.redirect('/')
+        res.redirect('/login?error='+encodeURIComponent('Incorrect Ceredentials'))
     }
 })
 

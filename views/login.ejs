@@ -24,10 +24,13 @@
                    <p>We are happy to have you back.</p>
               </div>
               <div class="input-group mb-3">
-                  <input name="username" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Username">
+                  <input name="username" id="username" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Username">
+                  <div class="invalid-feedback">
+                    Username or Password may be Incorrect!!
+                  </div>
               </div>
               <div class="input-group mb-1">
-                  <input name="password" type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password">
+                  <input name="password" id="password" type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password">
               </div>
               <div class="input-group mb-5 d-flex justify-content-between">
                   <div class="form-check">
@@ -52,6 +55,24 @@
     </div>
   </div>
 </form>
+
+<script>
+
+    const query = window.location.search
+    const error = query.split('=')[1]
+
+    if(decodeURIComponent(error)==='Incorrect Ceredentials'){
+        document.querySelector('#username').classList.add('is-invalid')
+        document.querySelector('#password').classList.add('is-invalid')
+
+        setTimeout(()=>{
+            document.querySelector('#username').classList.remove('is-invalid')
+            document.querySelector('#password').classList.remove('is-invalid')
+        },10000)
+    }
+    
+
+</script>
 
 
 <%- include('partials/footer.ejs') %>

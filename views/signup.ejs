@@ -29,11 +29,17 @@
             <div class="input-group mb-3">
               <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="username" id="username"
                 name="username" required>
+                <div class="invalid-feedback">
+                  Username Already Exists
+              </div>
             </div>
 
             <div class="input-group mb-3">
               <input type="email" class="form-control form-control-lg bg-light fs-6" placeholder="Email address"
                 id="email" name="email" required>
+                <div class="invalid-feedback">
+                  Email Already in Use
+              </div>
             </div>
 
             <div class="input-group mb-3">
@@ -63,11 +69,11 @@
 
             <div class="input-group mb-3">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="male">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="male" required>
                     <label class="form-check-label" for="inlineRadio1">Male</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="female">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="female" required>
                     <label class="form-check-label" for="inlineRadio2">Female</label>
                   </div>
                   <div class="form-check form-check-inline">
@@ -86,6 +92,36 @@
     </div>
   </form>
 
+  <script>
+    const query = window.location.search
+    const error = query.split('=')[1]
+    if(decodeURIComponent(error)==='Username Exists'){
+      document.querySelector('#username').classList.add('is-invalid')
+      
+    setTimeout(()=>{
+      document.querySelector('#username').classList.remove('is-invalid')
+    },10000)
+    }
+
+
+    if(decodeURIComponent(error)==='Email in Use'){
+      document.querySelector('#email').classList.add('is-invalid')
+      setTimeout(()=>{
+      document.querySelector('#email').classList.remove('is-invalid')
+    },10000)
+    }
+
+    if(decodeURIComponent(error)==='Username and Email in Use'){
+      document.querySelector('#username').classList.add('is-invalid')
+      document.querySelector('#email').classList.add('is-invalid')
+    setTimeout(()=>{
+      document.querySelector('#username').classList.remove('is-invalid')
+      document.querySelector('#email').classList.remove('is-invalid')
+    },10000)
+    }
+    
+
+  </script>
 
   <%- include('partials/footer.ejs') %>
 
