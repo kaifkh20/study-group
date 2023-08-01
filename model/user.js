@@ -4,11 +4,14 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 
+
 const userSchema = new mongoose.Schema({
     username : {
         type : String,
         required: true,
         trim: true,
+        index:true,
+        unique :true
     },
     email:{
         type : String,
@@ -19,7 +22,10 @@ const userSchema = new mongoose.Schema({
             if(!validator.isEmail(val)){
                 throw new Error('Invalid Email') 
             }
-        }
+        },
+        index:true,
+        unique :true
+
     },
     password:{
         type : String,
@@ -48,6 +54,7 @@ const userSchema = new mongoose.Schema({
         required : false
     }   
 })
+
 
 
 userSchema.methods.getAuthToken = async function(){

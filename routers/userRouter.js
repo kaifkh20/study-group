@@ -32,8 +32,7 @@ router.post('/signup',async(req,res)=>{
         await user.save()
         res.redirect('/')
     }catch(e){
-        console.log(e);
-        res.end()
+        res.redirect('/signup')
     }
 })
 
@@ -46,7 +45,7 @@ router.post('/login',async(req,res)=>{
         res.redirect('/info')  
     }catch(e){
         console.log(e);
-        res.status(500).send("Error")
+        res.redirect('/')
     }
 })
 

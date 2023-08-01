@@ -1,80 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
-
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;600&family=Lato:wght@400;700&display=swap');
-*{
- margin: 0;
- padding: 0;
- box-sizing: border-box;
-
-}
-#outer-box-1{
-    background-color: rgb(43, 104, 226);
-    font-family: 'Lato', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: lightblue;
-    
-
-}
-.outer-box{
-    align-items: center;
-     /* background-color: rgb(43, 104, 226); */
-    width: 100vw;
-}
-.inner-box{
-    font-family: 'Lato';
-    box-shadow: 0px 0px 5px 1px  black;
-    width: fit-content;
-    position: relative;
-    top: 10%;
-    margin: 0 auto;
-    background-color: white;
-    padding: 10px 30px;
-    border-radius: 5px;
-}
-.signup-header h2{
-    font-family: 'DynaPuff', cursive;
-    display: flex;
-    justify-content: center;
-
-    font-size: 2.5rem;
-    color: rgb(32, 31, 31);
-}
-.signup-header p{
-    
-    font-size: 0.8rem;
-    color: rgb(51, 50, 50);
-}
-.signup-body {
-    margin: 10px 0;
-}
-.signup-body p{
-    margin: 5px 0;
-}
-.signup-body label{
-    display: flex;
+body{
+    font-family: 'Poppins', sans-serif;
+    background: #ececec;
 }
 
-.signup-body p input{
-    width: 100%;
-    padding: 10px 10px;
-    border-radius: 5px;
-    border: 2px solid black;
-    font-size:15px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin: 5px 0;
+/*------------ Login container ------------*/
+
+.box-area{
+    width: 930px;
 }
-.signup-body p #submit{
-    background-color: rgb(43, 104, 226);
-    color: aliceblue;
-    cursor: pointer;
+
+/*------------ Right box ------------*/
+
+.right-box{
+    padding: 40px 30px 40px 40px;
 }
-.signup-body p #submit:hover{
-    background: darkblue;
+
+/*------------ Custom Placeholder ------------*/
+
+::placeholder{
+    font-size: 16px;
 }
-#checkbox{
-    margin: 100;
+
+.rounded-4{
+    border-radius: 20px;
+}
+.rounded-5{
+    border-radius: 30px;
+}
+
+
+/*------------ For small screens------------*/
+
+@media only screen and (max-width: 768px){
+
+     .box-area{
+        margin: 0 10px;
+
+     }
+     .left-box{
+        height: 100px;
+        overflow: hidden;
+     }
+     .right-box{
+        padding: 20px;
+     }
+
 }

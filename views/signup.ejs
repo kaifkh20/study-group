@@ -1,62 +1,92 @@
 <%- include('partials/header.ejs') %>
 
-<div id="outer-box-1">
 
-<div class="outer-box">
-  <div class="inner-box">
-      <header class="signup-header">
-          <h2>Signup</h2>
-          <!-- <p>it just take 30 second</p> -->
-      </header>
+  <form action="/signup" method="POST">
 
-      <main class="signup-body">
-          <form action="#">
+    <!----------------------- Main Container -------------------------->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+      <!----------------------- Login Container -------------------------->
+      <div class="row border rounded-5 p-3 bg-white shadow box-area">
+        <!--------------------------- Left Box ----------------------------->
+        <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
+          style="background: #103cbe;">
+          <div class="featured-image mb-3">
+            <img src="images/1.png" class="img-fluid" style="width: 250px;">
+          </div>
+          <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Register
+            Yourself</p>
+          <small class="text-white text-wrap text-center"
+            style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Please Signup here to join your
+            Friends</small>
+        </div>
+        <!-------------------- ------ Right Box ---------------------------->
 
-            <p>
-                <label for="username">Username</label>
-                <input type="username" id="username" name="username" placeholder="Enter Your Username" required class="input-box">
-            </p>
+        <div class="col-md-6 right-box">
+          <div class="row align-items-center">
+            <div class="header-text mb-4">
+              <h2>Fill The Required Info</h2>
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="username" id="username"
+                name="username" required>
+            </div>
 
-              <p>
-                  <label for="fullname">Full name</label>
-                  <input type="text" id="fullname" placeholder="Jhon Dee" required  class="input-box">
-              </p>
-              <p>
-                  <label for="email">Email</label>
-                  <input type="email" id="email" placeholder="Eg: xyz@gmail.com" required class="input-box">
-              </p>
-              <p>
-                  <label for="password">Password</label>
-                  <input type="password" id="password" placeholder="at least 8 character" required class="input-box">
-              </p>
-              <p>
-                  <label for="password">Confirm Password</label>
-                  <input type="password" id="password" placeholder="at least 8 character" required class="input-box">
-              </p>
-              <p>
-                  <input type="submit" id="submit" value="Create Account">
+            <div class="input-group mb-3">
+              <input type="email" class="form-control form-control-lg bg-light fs-6" placeholder="Email address"
+                id="email" name="email" required>
+            </div>
 
-              </p>
-          </form>
-      </main>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password"
+                id="password" name="password" required>
+            </div>
 
-      <footer class="signup-footer">
-          <p>Already Have An Account <a href="/">Login</a></p>
-      </footer>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Name" id="name"
+                name="name" required>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="university"
+                id="university" name="university" required>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="course" id="course"
+                name="course" required>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Location" id="location"
+                name="location" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="male">
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="female">
+                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="others" disabled>
+                    <label class="form-check-label" for="inlineRadio3">Others</label>
+                  </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Sign Up</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-  <script>
-    const submit = document.querySelector("#submit")
-    const inputbox = document.querySelector(".input-box")
+  </form>
 
-    submit.addEventListener('click',()=>{
-        if (inputbox.value == "") {
-            alert("Input Required");
-            return false;
-        }
-        alert("your details are submitted refresh the page to login")
 
-    })
-  </script>
-<%- include('partials/footer.ejs') %>
+  <%- include('partials/footer.ejs') %>
+
+
