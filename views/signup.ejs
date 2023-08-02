@@ -52,9 +52,25 @@
                 name="name" required>
             </div>
 
-            <div class="input-group mb-3">
+            <!-- <div class="input-group mb-3">
               <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="university"
                 id="university" name="university" required>
+            </div> -->
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">University</label>
+              </div>
+              <select class="custom-select" id="inputGroupSelect01" name="university" required>
+                <option selected>Choose...</option>
+                <% for(var i=0;i<university.length;i++){ %>
+                  <% let x = university[i].name  %>
+                  <option value="<%= university[0].name %>"> 
+                  <%= x %> 
+                </option>
+                <% } %>
+              </select>
+              <a href="/addUniversity" class="link-primary">Add Your University</a>
             </div>
 
             <div class="input-group mb-3">

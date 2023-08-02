@@ -4,6 +4,9 @@ body{
     font-family: 'Poppins', sans-serif;
     background: #ececec;
 }
+a{
+    text-decoration: none;
+}
 
 /*------------ Login container ------------*/
 

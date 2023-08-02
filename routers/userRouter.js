@@ -3,6 +3,7 @@ const {User} = require('../model/user')
 const router = express.Router()
 const auth = require('../auth/auth')
 const checkLogin = require('../auth/checkLogin')
+const Uni = require('../model/university')
 
 router.get('/',checkLogin,async(req,res)=>{
     res.redirect('/login')
@@ -26,7 +27,11 @@ router.get('/info',auth,async(req,res)=>{
 })
 
 router.get('/signup',async(req,res)=>{
-    res.render('signup')
+    const university = await Uni.find({})
+    // console.log(university[0].name);
+    res.render('signup',{
+        university
+    })
 })
 
 router.post('/signup',async(req,res)=>{
@@ -43,8 +48,7 @@ router.post('/signup',async(req,res)=>{
         else if(countEmail>0 && countUsername==0){
             return res.redirect('/signup?error='+encodeURIComponent('Email in Use'))
         }
-        return res.redirect('signup?error='+encodeURIComponent('Username and Email in Use'))
-        
+        return res.redirect('signup?error='+encodeURIComponent('Username and Email in Use'))  
     }
 })
 
@@ -58,6 +62,10 @@ router.post('/login',async(req,res)=>{
         console.log(e);
         res.redirect('/login?error='+encodeURIComponent('Incorrect Ceredentials'))
     }
+})
+
+router.get('/addUniversity',async(req,res)=>{
+    res.render('addUni')
 })
 
 router.get('/logout',async(req,res)=>{
