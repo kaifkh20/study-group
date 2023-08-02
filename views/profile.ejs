@@ -1,12 +1,20 @@
 <%- include('partials/header.ejs') %>
 
-<div>
-  <h1>Info</h1>
-  <p><%= username %></p>
-  <p><%= email %></p>
-</div>
-
-<a href="/logout">Logout</a>
-
-
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+     <div class="row border rounded-5 p-3 bg-white shadow box-area w-100">
+      
+              <div class="header-text mb-4 d-flex justify-content-center align-items-center ">
+                   <h2>userInfo</h2>
+              </div>
+              <div class="input-group mb-3">
+                  <textarea name="username" id="username" cols="30" rows="10" class="form-control form-control-lg bg-light fs-6" disabled  ><%= username %></textarea >
+              </div>
+              <div class="input-group mb-1">
+                  <textarea name="username" id="username" cols="30" rows="10" class="form-control form-control-lg bg-light fs-6" disabled ><%= email %></textarea>
+                </div>
+              <div class="input-group mb-5 d-flex justify-content-between">
+              <div class="input-group mb-3">
+                  <button class="btn btn-lg btn-primary w-50 fs-6">Close</button>
+                  <button class="btn btn-lg btn-primary w-50 fs-6" ><a href="/logout" style="color: white;" >logout  </a> </button>
+              </div>
 <%- include('partials/footer.ejs') %>
