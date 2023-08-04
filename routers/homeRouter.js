@@ -12,13 +12,15 @@ router.get('/home',auth,async(req,res)=>{
     // res.redirect('/chat?server='+encodeURIComponent('Netaji Subhas'))
 })
 
-router.get('/home/server',async(req,res)=>{
+router.get('/home/server',auth,async(req,res)=>{
     const serverName = req.query.serverName
+    const user = req.user
     // console.log(query);
     const server = await Server.findOne({serverName}).populate('channels')
     // console.log(server.channels);
     res.render('channels',{
-        channels : server.channels
+        channels : server.channels,
+        username:user.username
     })
 })
 

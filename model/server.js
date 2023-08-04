@@ -10,7 +10,7 @@ const messageSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    channel_id : {
+    channel_id: {
         type : mongoose.Schema.Types.ObjectId,
         ref : "Channel"
     }
@@ -29,6 +29,7 @@ const channelSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    
     users : [
         {type : mongoose.Schema.Types.ObjectId,
         ref : "User"}

@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
-const userRouter = require('./userRouter')
+const {userRouter} = require('./userRouter')
 const homeRouter = require('./homeRouter')
 const chatRouter = require('./chatRouter')
 const bodyParser = require('body-parser')
@@ -13,11 +13,12 @@ const socketio = require('socket.io')
 const Filter = require('bad-words')
 require('dotenv').config('./')
 const {Server,Channel,Message} = require('../model/server')
-
+const {User} = require('../model/user')
+const auth = require('../auth/auth')
 
 const { generateMessage, generateLocationMessage,generateImageMessage} = require('../utils/messages')
-const {addUser,removeUser,getUser,getUserInRoom} = require('../utils/users')
-const { channel } = require('diagnostics_channel')
+
+
 
 const publicDirectoryPath = path.join(__dirname, '../public')
 const server = http.createServer(app)
@@ -35,28 +36,66 @@ app.use(chatRouter)
 
 const getUserFromChannel = async (channelCode)=>{
     return await Channel.findOne({channelCode}).populate('users')
-
 }
 
-io.on('connection',(socket)=>{
-    console.log('connected');
-    socket.broadcast.emit('message', generateMessage('A new user has joined!'))
 
-    socket.on('channelCode',async(channelCode)=>{
+io.on('connection',(socket)=>{
+
+     const getUserBySocketId = async(socketId)=>{
+        const user = await User.findOne({socketId})
+        return user
+    }
+
+    socket.on('join',async({userName,channelCode})=>{
+        const user = await User.findOneAndUpdate({username:userName},{socketId:socket.id})
+
         socket.join(channelCode)
-        let users = await Channel.findOne({channelCode}).populate('users')
-        let channelName = users.channelName
-        users = users.users
+
+        const channels = await Channel.findOne({channelCode}).populate('users')
+        const users = channels.users
+        const channelName = channels.channelName
+
         io.to(channelCode).emit('roomData',{channelName,users})
     })
-    // var channelCod = null
+
+    socket.on('sendMessage', async({userName,message,channelCode}, callback) => {
+        const user = await User.findOne({socketId:socket.id})
+        const user_id = user._id
+        const channel_id = await Channel.findOne({channelCode})._id
+
+        const filter = new Filter()
+
+        if (filter.isProfane(message)) {
+            return callback('Profanity is not allowed!')
+        }
+
+        const messageTo = new Message({
+            user_id,
+            body : message,
+            channel_id  
+        })
+        
+        await messageTo.save()
+
+        await Channel.findOneAndUpdate({channelCode},{"$push":{messages:messageTo}})
+
+        io.to(channelCode).emit('message', generateMessage(userName,message))
+        callback()
+    })
     
-
-
+    socket.on('sendLocation', ({lat,long,userName,channelCode}, callback) => {
+        // const user = getUser(socket.id)
+        io.to(channelCode).emit('locationMessage', generateLocationMessage(userName,`https://google.com/maps?q=${lat},${long}`))
+        callback()
+    })
     
-
+   
+    // console.log(user);
+    // socket.on('disconnect',async()=>{
+    //     await User.findOneAndUpdate({username:userName})
+    // })
 })
-
+    // var channelCod = n
 
 mongoose.connect(`mongodb+srv://kaiffkhann292:${process.env.PASSWORD_ATLAS}@clusterstudybuddy.kmzfdq7.mongodb.net/?retryWrites=true&w=majority`,{
     useNewUrlParser : true

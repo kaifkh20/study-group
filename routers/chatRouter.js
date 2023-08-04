@@ -16,19 +16,19 @@ router.get('/chat',auth,async(req,res)=>{
     res.sendFile(path.join(__dirname,'../public/chat.html'))
 })
 
-router.post('/chat',auth,async(req,res)=>{
-    const user = req.user
-    const body = "req.body.message"
-    const channel_id = await Channel.findOne({channelName:"BCA"})
-    const message = new Message({
-        user_id : user._id,
-        body,
-        channel_id
-    })
-    await message.save()
-    await Channel.findOneAndUpdate({_id:channel_id},{"$push":{'messages':message._id}})
-    res.redirect('/chat')
-})
+// router.post('/chat',auth,async(req,res)=>{
+//     const user = req.user
+//     const body = "req.body.message"
+//     const channel_id = await Channel.findOne({channelName:"BCA"})
+//     const message = new Message({
+//         user_id : user._id,
+//         body,
+//         channel_id
+//     })
+//     await message.save()
+//     await Channel.findOneAndUpdate({_id:channel_id},{"$push":{'messages':message._id}})
+//     res.redirect('/chat')
+// })
 
 router.get('/chat/createChannel',auth,async(req,res)=>{
     try{

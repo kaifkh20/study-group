@@ -17,8 +17,7 @@ const sBTemplate = document.querySelector('#sidebar-template').innerHTML
 const imageLinkTemplate = document.querySelector('#image-link-template').innerHTML
 
 
-const query = window.location.search
-const channelCode = query.split('=')[2]
+const {userName,channelCode} = Qs.parse(location.search,{ignoreQueryPrefix:true})
 
 const room = channelCode
 
@@ -46,8 +45,32 @@ const autoscroll = () => {
     }
 }
 
+socket.on('message', (message) => {
+    console.log(message)
+    const html = ejs.render(messageTemplate, {
+        username : message.username,
+        message: message.text,
+        createdAt: message.createdAt
+    })
+    $messages.insertAdjacentHTML('beforeend', html)
+    autoscroll()
+})
 
-socket.emit('channelCode',channelCode)
+socket.on('locationMessage', (message) => {
+    console.log(message)
+    const html = ejs.render(locationMessageTemplate, {
+        username : message.username,
+        url: message.url,
+        createdAt: message.createdAt
+    })
+    // console.log(html);
+    $messages.insertAdjacentHTML('beforeend', html)
+    autoscroll()
+})
+
+socket.emit('join',{channelCode,userName})
+
+// socket.emit('channelCode',channelCode)
 
 socket.on('userData',(users)=>{
     // console.log(users.users);
@@ -55,12 +78,54 @@ socket.on('userData',(users)=>{
 })
 
 socket.on('roomData',({channelName,users})=>{
-    console.log(users);
+    console.log(channelName,users);
     const html = ejs.render(sBTemplate,{channelName,users})
     document.querySelector('#sidebar').innerHTML = html
 })
 
-socket.emit('join',channelCode)
+
+$messageForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    $messageFormButton.setAttribute('disabled', 'disabled')
+
+    const message = e.target.elements.message.value
+
+    socket.emit('sendMessage',{userName,message,channelCode}, (error) => {
+        $messageFormButton.removeAttribute('disabled')
+        $messageFormInput.value = ''
+        $messageFormInput.focus()
+
+        if (error) {
+            return console.log(error)
+        }
+
+        console.log('Message delivered!')
+    })
+})
+
+$sendLocationButton.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+        return alert('Geolocation is not supported by your browser.')
+    }
+
+    $sendLocationButton.setAttribute('disabled', 'disabled')
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        socket.emit('sendLocation', {
+            lat : position.coords.latitude,
+            long: position.coords.longitude,
+            userName,channelCode
+        }, () => {
+            $sendLocationButton.removeAttribute('disabled')
+            console.log('Location shared!')  
+        })
+    })
+})
+
+
+socket.emit('join',{userName,channelCode})
+
 
 
 

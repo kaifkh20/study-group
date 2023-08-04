@@ -1,32 +1,35 @@
 const express = require('express')
 const {User} = require('../model/user')
-const router = express.Router()
+const userRouter = express.Router()
 const auth = require('../auth/auth')
 const checkLogin = require('../auth/checkLogin')
 const Uni = require('../model/university')
 
-router.get('/',checkLogin,async(req,res)=>{
+
+userRouter.get('/',checkLogin,async(req,res)=>{
     res.redirect('/login')
 })
 
-router.get('/login',checkLogin,async(req,res)=>{
+userRouter.get('/login',checkLogin,async(req,res)=>{
     res.render('login')
 })
 
-router.get('/info',auth,async(req,res)=>{
+userRouter.get('/info',auth,async(req,res)=>{
     try{
         const user = req.user
+        userId = user._id
         res.render('profile',{
             username : user.username,
             email : user.email
         })
+        
     }catch(e){
         console.log(e);
     }
     res.end()
 })
 
-router.get('/signup',checkLogin,async(req,res)=>{
+userRouter.get('/signup',checkLogin,async(req,res)=>{
     const university = await Uni.find({})
     // console.log(university[0].name);
     res.render('signup',{
@@ -34,7 +37,7 @@ router.get('/signup',checkLogin,async(req,res)=>{
     })
 })
 
-router.post('/signup',checkLogin,async(req,res)=>{
+userRouter.post('/signup',checkLogin,async(req,res)=>{
     const user = new User(req.body)
     try{
         await user.save()
@@ -52,7 +55,7 @@ router.post('/signup',checkLogin,async(req,res)=>{
     }
 })
 
-router.post('/login',checkLogin,async(req,res)=>{
+userRouter.post('/login',checkLogin,async(req,res)=>{
     try{
         const user = await User.findByCredentials(req.body.username,req.body.password)
         const token = await user.getAuthToken()
@@ -64,13 +67,13 @@ router.post('/login',checkLogin,async(req,res)=>{
     }
 })
 
-router.get('/addUniversity',async(req,res)=>{
+userRouter.get('/addUniversity',async(req,res)=>{
     res.render('addUni')
 })
 
-router.get('/logout',auth,async(req,res)=>{
+userRouter.get('/logout',auth,async(req,res)=>{
     res.clearCookie('token')
     res.redirect('/')
 })
 
-module.exports = router
+module.exports = {userRouter}

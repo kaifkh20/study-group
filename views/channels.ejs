@@ -5,9 +5,11 @@
         <a id="channel" href="<%=channels[i].channelName%>">
             <%= channels[i].channelName %>
         </a>
-        <a style="display: none;" id="channelCode"><%= channels[i].channelCode %></a>
+        <a style="display: none;" id="channelCode" onclick="post()"><%= channels[i].channelCode %></a>
 
     <%}%>
+
+    <a id="user" style="display: none;"><%=username%></a>
 </div>
 
 
@@ -17,8 +19,8 @@
     const cD = document.querySelector('#channelCode')
     const val = el.innerHTML
     const code = cD.innerHTML.trim()
-    console.log(val.trim());
-    el.href = '/chat?channelName='+encodeURIComponent(val.trim())+'&channelCode='+encodeURIComponent(code)
+    const username = document.querySelector('#user').innerHTML
+    el.href = '/chat?userName='+encodeURIComponent(username)+'&channelCode='+encodeURIComponent(code)
 </script>
 
 <%- include('partials/footer.ejs') %>
