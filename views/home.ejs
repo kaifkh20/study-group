@@ -1,0 +1,15 @@
+<%- include('partials/header.ejs') %> 
+
+<div>
+    <a id="serverName" href="#">Netaji Subhas University</a>
+</div>
+
+
+<script>
+
+    const el = document.querySelector('#serverName')
+    const val = el.innerHTML
+    el.href = '/home/server?serverName='+encodeURIComponent(val.trim()) 
+</script>
+
+<%- include('partials/footer.ejs') %>

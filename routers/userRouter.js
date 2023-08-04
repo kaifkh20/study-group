@@ -9,13 +9,13 @@ router.get('/',checkLogin,async(req,res)=>{
     res.redirect('/login')
 })
 
-router.get('/login',async(req,res)=>{
+router.get('/login',checkLogin,async(req,res)=>{
     res.render('login')
 })
 
 router.get('/info',auth,async(req,res)=>{
     try{
-        const user = await User.findOne({_id:req.user.id})
+        const user = req.user
         res.render('profile',{
             username : user.username,
             email : user.email
@@ -26,7 +26,7 @@ router.get('/info',auth,async(req,res)=>{
     res.end()
 })
 
-router.get('/signup',async(req,res)=>{
+router.get('/signup',checkLogin,async(req,res)=>{
     const university = await Uni.find({})
     // console.log(university[0].name);
     res.render('signup',{
@@ -34,7 +34,7 @@ router.get('/signup',async(req,res)=>{
     })
 })
 
-router.post('/signup',async(req,res)=>{
+router.post('/signup',checkLogin,async(req,res)=>{
     const user = new User(req.body)
     try{
         await user.save()
@@ -52,7 +52,7 @@ router.post('/signup',async(req,res)=>{
     }
 })
 
-router.post('/login',async(req,res)=>{
+router.post('/login',checkLogin,async(req,res)=>{
     try{
         const user = await User.findByCredentials(req.body.username,req.body.password)
         const token = await user.getAuthToken()
@@ -68,7 +68,7 @@ router.get('/addUniversity',async(req,res)=>{
     res.render('addUni')
 })
 
-router.get('/logout',async(req,res)=>{
+router.get('/logout',auth,async(req,res)=>{
     res.clearCookie('token')
     res.redirect('/')
 })
