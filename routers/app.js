@@ -53,10 +53,8 @@ io.on('connection',(socket)=>{
         const channelName = channels.channelName
 
         io.to(channelCode).emit('roomData',{channelName,users})
-        
-        
-
-        
+        io.to(channelCode).emit('message',generateMessage("Bot",user.username+" is online now!!"))
+ 
         
     })
 
@@ -114,9 +112,6 @@ io.on('connection',(socket)=>{
     
    
     // console.log(user);
-    // socket.on('disconnect',async()=>{
-    //     await User.findOneAndUpdate({username:userName})
-    // })
 })
     // var channelCod = n
 
