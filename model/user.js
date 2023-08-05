@@ -6,6 +6,9 @@ const bcrypt = require('bcrypt')
 
 
 const userSchema = new mongoose.Schema({
+    avatar : {
+        type : Buffer
+    },
     username : {
         type : String,
         required: true,
@@ -56,6 +59,11 @@ const userSchema = new mongoose.Schema({
     servers:[
         {
             serverName : {type : String}
+        }
+    ],
+    channels:[
+        {
+            channelCode : {type:String}
         }
     ]
     ,socketId :{

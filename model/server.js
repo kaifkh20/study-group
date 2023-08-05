@@ -22,7 +22,8 @@ const channelSchema = new mongoose.Schema({
     },
     channelName:{
         type : String,
-        required : true
+        required : true,
+        unique : true
     },
     channelCode : {
         type : String,
@@ -42,7 +43,8 @@ const channelSchema = new mongoose.Schema({
 const serverSchema = new mongoose.Schema({
     serverName :{
         type : String,
-        required : true
+        required : true,
+        unique : true
     },
     channels :[
         {

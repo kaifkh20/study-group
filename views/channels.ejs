@@ -34,6 +34,45 @@
     .no-display{
         display: none;
     }
+    /* The alert message box */
+  .alert-red {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+  }
+
+  .alert-green{
+    padding: 20px;
+    background-color: #82f436; /* Red */
+    color: white;
+    margin-bottom: 15px
+  }
+
+  /* The close button */
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+    color: black;
+  }
+
+  .is-display{
+    display: block;
+  }
+  .no-display{
+    display: none;
+  }
+
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
@@ -59,7 +98,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/home">Home</a></li>
-        <li><a href="#">Profile</a></li>
+        <li><a href="/info">Profile</a></li>
         
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -68,7 +107,12 @@
     </div>
   </div>
 </nav>
-  
+
+<div class="alert no-display "  id="alert" >
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  This is an alert box.
+</div>
+
 <div class="container-fluid text-center">    
   <div class="row content">
     <div class="col-sm-2 sidenav">
@@ -81,8 +125,17 @@
         <hr>
   
         <% for(let i=0;i<channels.length;i++) { %>
-              <h3><a id="channelName<%=i%>" href=""><%=channels[i].channelName%></a></h3>
-              <a style="display: none;" id="channelCode<%=i%>"><%=channels[i].channelCode%></a>
+              <div class="channel-name">
+                <h3><p id="channelName<%=i%>"><%=channels[i].channelName%></p></h3>
+                <%const sN = encodeURIComponent(serverName) %>
+                <form action="/joinChannel?serverName=<%=sN%>" method="post">
+                  <input  name="channelCode" style="display: none;" id="channelCode<%=i%>" value="<%=channels[i].channelCode%>"></input>
+                  <button type="submit" id="joinChannel<%=i%>" href="" class="btn btn-primary">Join Channel</button>
+                  <a id="enterChannel<%=i%>"  href="" class="btn btn-success">Enter Channel</a>
+                </form>
+                
+              </div>
+              
         <%}%>
         <!-- <h3>Test</h3>
         <p>Lorem ipsum...</p> -->
@@ -90,13 +143,15 @@
             Create Channel
         </a>
         
+        
     </div>
+
     
     
 
     <div class="col-sm-2 sidenav">
 
-    
+      
       <!-- <div class="well">
         <p>ADS</p>
       </div>
@@ -105,6 +160,10 @@
       </div>
     </div> -->
   </div>
+
+  <div>
+    <p><strong>Click On "Join Channel" First if you have not joined!!</strong></p>
+  </div>
 </div>
 
 
@@ -112,18 +171,44 @@
 <!-- <footer class="container-fluid text-center">
   <p>Footer Text</p>
 </footer> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
 <script src="js/ejs.js"></script>
 <script>
+
+    let click = false
+
+    
+
+
+    const alertBox = document.querySelector('#alert')
+    const {serverName,status} = Qs.parse(location.search,{ignoreQueryPrefix:true})
+    if(status===decodeURIComponent('Already Joined')){
+      alertBox.innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      Already Joined, clck on Enter Channel to Join`
+      alertBox.classList.remove('no-display')
+      alertBox.classList.add('alert-red')
+      alertBox.classList.add('is-display')
+    }
+    if(status===decodeURIComponent('Joined')){
+      alertBox.innerHTML = `<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      Joined, click on Enter Channel to Join`
+      alertBox.classList.remove('no-display')
+      alertBox.classList.remove('alert-red')
+      alertBox.classList.add('alert-green')
+      alertBox.classList.add('is-display')
+    }
 
     const channelsLength = "<%=channels.length%>"
 
     for(let i=0;i<channelsLength;i++){
         const el = document.getElementById('channelName'+i)
         const val = el.innerHTML
-        const channelCode = document.querySelector('#channelCode'+i).innerHTML
-        el.href = '/chat?userName='+encodeURIComponent('<%=username%>')+'&channelCode='+encodeURIComponent(channelCode)
-
+        const enterChannel = document.querySelector('#enterChannel'+i)
+        const joinChannel = document.querySelector('#joinChannel'+i)
+        const channelCode = document.querySelector('#channelCode'+i).value
+        enterChannel.href = '/chat?userName='+encodeURIComponent('<%=username%>')+'&channelCode='+encodeURIComponent(channelCode)
     }
+
 
     
     const createChannel = document.getElementById('createChannel')

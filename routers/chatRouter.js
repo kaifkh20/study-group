@@ -6,6 +6,7 @@ const checkLogin = require('../auth/checkLogin')
 const crypto = require('node:crypto')
 const {Server,Channel,Message} = require('../model/server')
 const path = require('path')
+const { ObjectId } = require('mongodb')
 
 router.get('/chat',auth,async(req,res)=>{
 
@@ -14,22 +15,16 @@ router.get('/chat',auth,async(req,res)=>{
     // res.end()
    }
 
+//    const user = await User.findOne({_id:req.user.id})
+//    const channelCodes = user.channels
+
+//    if(!channelCodes.includes(new ObjectId(channelCodes))){
+//         res.redirect()
+//    }
+
     res.sendFile(path.join(__dirname,'../public/chat.html'))
 })
 
-// router.post('/chat',auth,async(req,res)=>{
-//     const user = req.user
-//     const body = "req.body.message"
-//     const channel_id = await Channel.findOne({channelName:"BCA"})
-//     const message = new Message({
-//         user_id : user._id,
-//         body,
-//         channel_id
-//     })
-//     await message.save()
-//     await Channel.findOneAndUpdate({_id:channel_id},{"$push":{'messages':message._id}})
-//     res.redirect('/chat')
-// })
 
 router.get('/chat/createChannel',auth,async(req,res)=>{
 
@@ -63,6 +58,26 @@ router.post('/chat/createChannel',auth,async(req,res)=>{
         await Server.findOneAndUpdate({_id:server_id},{"$push":{'channels':channel._id}})
         
         res.redirect('/home/server?serverName='+encodeURIComponent(req.body.serverName))
+    }catch(e){
+        console.log(e);
+    }
+})
+
+router.post('/joinChannel',auth,async(req,res)=>{
+    try{
+        console.log(req.query);
+        const user = req.user
+        const {channelCode} = req.body
+        const channels = await Channel.findOne({channelCode})
+        const users = channels.users
+        if(users.includes(new ObjectId(user._id))){
+            res.redirect('/home/server?serverName='+encodeURIComponent(req.query.serverName)+'&status='+encodeURIComponent('Already Joined'))
+        }
+        else{
+            await Channel.findOneAndUpdate({channelCode},{"$push":{users:user._id}})
+            res.redirect('/home/server?serverName='+encodeURIComponent(req.query.serverName)+'&status='+encodeURIComponent('Joined'))
+        }
+            
     }catch(e){
         console.log(e);
     }

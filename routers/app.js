@@ -64,7 +64,7 @@ io.on('connection',(socket)=>{
         const channels = await Channel.findOne({channelCode}).populate('messages')
         const messages = channels.messages
 
-        io.to(channelCode).emit('render100Messages',messages)
+        io.to(socket.id).emit('render100Messages',messages)
 
     })
 
