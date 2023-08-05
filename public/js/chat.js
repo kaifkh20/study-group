@@ -1,6 +1,6 @@
 
 
-const socket = io('127.0.0.1:3000')
+const socket = io()
 // const User = require('.../model/server')
 // Elements
 const $messageForm = document.querySelector('#message-form')
