@@ -7,6 +7,7 @@ const crypto = require('crypto')
 const {Server,Channel,Message} = require('../model/server')
 const path = require('path')
 const { ObjectId } = require('mongodb')
+const base64url = require('base64url')
 
 router.get('/chat',auth,async(req,res)=>{
 
@@ -35,7 +36,7 @@ router.get('/chat/createChannel',auth,async(req,res)=>{
 
 router.post('/chat/createChannel',auth,async(req,res)=>{
     
-    console.log(req.body);
+    // console.log(req.body);
     
      try{
         const channelName = req.body.channelName
@@ -45,7 +46,8 @@ router.post('/chat/createChannel',auth,async(req,res)=>{
         }
         let server = await Server.findOne({serverName:req.body.serverName})
         const server_id = server._id
-        const channelCode = crypto.randomBytes(32).toString('base64url')
+        let channelCode = crypto.randomBytes(32).toString('base64')
+        channelCode = base64url.fromBase64(channelCode)
         
         const channel = new Channel({
             server : server_id,

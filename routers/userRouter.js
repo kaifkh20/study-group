@@ -92,10 +92,7 @@ userRouter.post('/login',checkLogin,async(req,res)=>{
     }
 })
 
-userRouter.get('/testA',async(req,res)=>{
-    const user = await User.findOne({username:"sample2"})
-    console.log(user.avatar.toString('base64'));
-})
+
 
 userRouter.get('/addUniversity',async(req,res)=>{
     res.render('addUni')
