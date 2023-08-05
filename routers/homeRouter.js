@@ -9,7 +9,7 @@ router.use(auth)
 
 router.get('/home',auth,async(req,res)=>{
     const user = req.user
-    console.log(user.servers);
+    // console.log(user.servers);
     res.render('home',{
         user 
     })
