@@ -13,7 +13,12 @@
 
         </div>
         <div class="chat__main">
-            <div id="messages" class="chat__messages"></div>
+            <div id="messages" class="chat__messages">
+                <a id="prev-message">Load Previous Message</a>
+            </div>
+
+            
+
 
             <div class="compose">
                 <form id="message-form">
@@ -75,6 +80,7 @@
         </ul>
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/ejs.js"></script>

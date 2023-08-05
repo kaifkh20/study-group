@@ -8,7 +8,7 @@ const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
 const $sendLocationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
-
+const $loadPrevMessage = document.querySelector('#prev-message')
 
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
@@ -123,6 +123,30 @@ $sendLocationButton.addEventListener('click', () => {
     })
 })
 
+$loadPrevMessage.addEventListener('click',(e)=>{
+    e.preventDefault()
+    socket.emit('load100Messages',({channelCode}))
+    
+},{
+    once : true
+})
+
+socket.on('render100Messages',(messages)=>{
+    for(let i=0;i<messages.length;i++){
+        const html = ejs.render(messageTemplate, {
+            username : messages[i].username,
+            message: messages[i].body,
+            createdAt: messages[i].createdAt 
+        })
+        $messages.insertAdjacentHTML('beforeend', html)
+        autoscroll()
+    }
+})
+
+// socket.on('load100Messages',({messages})=>{
+//     socket.emit('send100Messages',{messages,channelCode})
+    
+// })
 
 socket.emit('join',{userName,channelCode})
 

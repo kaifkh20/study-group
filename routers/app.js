@@ -51,16 +51,29 @@ io.on('connection',(socket)=>{
 
         socket.join(channelCode)
 
-        const channels = await Channel.findOne({channelCode}).populate('users')
+        let channels = await Channel.findOne({channelCode}).populate('users')
         const users = channels.users
         const channelName = channels.channelName
 
         io.to(channelCode).emit('roomData',{channelName,users})
+        
+        
+
+        
+        
+    })
+
+    socket.on('load100Messages',async({channelCode})=>{
+        const channels = await Channel.findOne({channelCode}).populate('messages')
+        const messages = channels.messages
+
+        io.to(channelCode).emit('render100Messages',messages)
+
     })
 
     socket.on('sendMessage', async({userName,message,channelCode}, callback) => {
-        const user = await User.findOne({socketId:socket.id})
-        const user_id = user._id
+        // const user = await User.findOne({socketId:socket.id})
+        // const user_id = user._id
         const channel_id = await Channel.findOne({channelCode})._id
 
         const filter = new Filter()
@@ -70,7 +83,7 @@ io.on('connection',(socket)=>{
         }
 
         const messageTo = new Message({
-            user_id,
+            username: userName,
             body : message,
             channel_id  
         })
@@ -88,6 +101,10 @@ io.on('connection',(socket)=>{
         io.to(channelCode).emit('locationMessage', generateLocationMessage(userName,`https://google.com/maps?q=${lat},${long}`))
         callback()
     })
+    // socket.on('send100Messages',({messages,channelCode})=>{
+    //     io.to(channelCode).emit('render100Messages',messages)
+        
+    // })
     
    
     // console.log(user);
