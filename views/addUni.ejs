@@ -1,0 +1,50 @@
+<%- include('partials/header.ejs') %>
+
+<form action="/addUniversity" method="post">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <!----------------------- Login Container -------------------------->
+        <!-- -------------- ------ Right Box ----------------------------> 
+    
+          <div class="col-md-6 right-box">
+            <div class="row align-items-center">
+              <div class="header-text mb-4">
+                <h2>Add University Form</h2>
+              </div>
+              
+              <label for="universityName" class="col-form-label">University Name</label>
+              <div class="input-group mb-3">
+                
+                <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Enter University Name" id="universityName"
+                  name="universityName">
+              </div>
+              <label for="address" class="col-form-label">Address</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Address" id="address"
+                  name="address" required>
+              </div>
+              <label for="universityWebsite" class="col-form-label">University Website</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="University Website" id="universityWebsite"
+                  name="universityWebsite" required>
+              </div>
+    
+              <div class="input-group mb-3">
+                <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Add University</button>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+    
+</form>
+<script>
+  const query = window.location.search
+  const error = query.split('=')[1]
+  if(decodeURIComponent(error)==="Already Exists"){
+    document.querySelector('#universityName').classList.add('is-invalid')
+  }
+</script>
+  <%- include('partials/footer.ejs') %>
+
+

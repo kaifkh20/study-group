@@ -1,38 +1,148 @@
 <%- include('partials/header.ejs') %>
 
-<h1>Signup Form</h1>
+
   <form action="/signup" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+    <!----------------------- Main Container -------------------------->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+      <!----------------------- Login Container -------------------------->
+      <div class="row border rounded-5 p-3 bg-white shadow box-area">
+        <!--------------------------- Left Box ----------------------------->
+        <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
+          style="background: #103cbe;">
+          <div class="featured-image mb-3">
+            <img src="/img/signup.png" class="img-fluid" style="width: 250px;">
+          </div>
+          <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Register
+            Yourself</p>
+          <small class="text-white text-wrap text-center"
+            style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Please Signup here to join your
+            Friends</small>
+        </div>
+        <!-------------------- ------ Right Box ---------------------------->
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+        <div class="col-md-6 right-box">
+          <div class="row align-items-center">
+            <div class="header-text mb-4">
+              <h2>Fill The Required Info</h2>
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="username" id="username"
+                name="username" required>
+                <div class="invalid-feedback">
+                  Username Already Exists
+              </div>
+            </div>
 
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control form-control-lg bg-light fs-6" placeholder="Email address"
+                id="email" name="email" required>
+                <div class="invalid-feedback">
+                  Email Already in Use
+              </div>
+            </div>
 
-    <label for="university">University:</label>
-    <input type="text" id="university" name="university" required>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password"
+                id="password" name="password" required>
+            </div>
 
-    <label for="course">Course:</label>
-    <input type="text" id="course" name="course" required>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Name" id="name"
+                name="name" required>
+            </div>
 
-    <label for="location">Location:</label>
-    <input type="text" id="location" name="location" required>
+            <!-- <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="university"
+                id="university" name="university" required>
+            </div> -->
 
-    <label for="gender">Gender:</label>
-    <select id="gender" name="gender" required>
-      <option value="">Select Gender</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="other">Other</option>
-    </select>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">University</label>
+              </div>
+              <select class="custom-select" id="inputGroupSelect01" name="university" required>
+                <option disabled selected>Choose...</option>
+                <% for(var i=0;i<university.length;i++){ %>
+                  <% let x = university[i].name  %>
+                  <option value="<%= university[0].name %>" required> 
+                  <%= x %> 
+                </option>
+                <% } %>
+              </select>
+              <div><a href="/addUniversity" class="link-primary">Add Your University</a></div>
+            </div>
+            
 
-    <button type="submit">Sign Up</button>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="course" id="course"
+                name="course" required>
+            </div>
+
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Location" id="location"
+                name="location" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="male" required>
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="female" required>
+                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="others" disabled>
+                    <label class="form-check-label" for="inlineRadio3">Others</label>
+                  </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Sign Up</button>
+            </div>
+            <div class="input-group mb-3">
+              <p>Have an account? <a href="/login">Login</a></p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </form>
 
+  <script>
+    const query = window.location.search
+    const error = query.split('=')[1]
+    if(decodeURIComponent(error)==='Username Exists'){
+      document.querySelector('#username').classList.add('is-invalid')
+      
+    setTimeout(()=>{
+      document.querySelector('#username').classList.remove('is-invalid')
+    },10000)
+    }
 
-<%- include('partials/footer.ejs') %>
+
+    if(decodeURIComponent(error)==='Email in Use'){
+      document.querySelector('#email').classList.add('is-invalid')
+      setTimeout(()=>{
+      document.querySelector('#email').classList.remove('is-invalid')
+    },10000)
+    }
+
+    if(decodeURIComponent(error)==='Username and Email in Use'){
+      document.querySelector('#username').classList.add('is-invalid')
+      document.querySelector('#email').classList.add('is-invalid')
+    setTimeout(()=>{
+      document.querySelector('#username').classList.remove('is-invalid')
+      document.querySelector('#email').classList.remove('is-invalid')
+    },10000)
+    }
+    
+
+  </script>
+
+  <%- include('partials/footer.ejs') %>
+
+

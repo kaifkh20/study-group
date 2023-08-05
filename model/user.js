@@ -4,11 +4,17 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 
+
 const userSchema = new mongoose.Schema({
+    avatar : {
+        type : Buffer
+    },
     username : {
         type : String,
         required: true,
         trim: true,
+        index:true,
+        unique :true
     },
     email:{
         type : String,
@@ -19,7 +25,10 @@ const userSchema = new mongoose.Schema({
             if(!validator.isEmail(val)){
                 throw new Error('Invalid Email') 
             }
-        }
+        },
+        index:true,
+        unique :true
+
     },
     password:{
         type : String,
@@ -46,13 +55,27 @@ const userSchema = new mongoose.Schema({
     gender : {
         type : String,
         required : false
-    }   
+    },
+    servers:[
+        {
+            serverName : {type : String}
+        }
+    ],
+    channels:[
+        {
+            channelCode : {type:String}
+        }
+    ]
+    ,socketId :{
+        type : String
+    } 
 })
+
 
 
 userSchema.methods.getAuthToken = async function(){
     const user = this
-    const token = jwt.sign({_id:user.id.toString()},process.env.SECRET_KEY)
+    const token = jwt.sign({_id:user.id.toString()},process.env.SECRET_KEY || "exampleKey")
     return token
 
 }

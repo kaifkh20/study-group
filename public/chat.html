@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat App</title>
+    <link rel="icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="css/styles.min.css">
+</head>
+
+<body>
+    <div class="chat">
+        
+        <div style="background-color: #333744;">
+            
+            <div id="sidebar"class="chat__sidebar">
+            
+            </div>
+        </div>
+        
+        <div class="chat__main">
+            <div id="messages" class="chat__messages">
+                
+                <a href="/home"><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/circled-left-2.png" alt="circled-left-2"/></a>
+                <a id="prev-message"><img width="40" height="40" src="https://img.icons8.com/ios-filled/50/available-updates.png" alt="available-updates"/></a>
+            </div>
+
+
+            <div class="compose">
+                <form id="message-form">
+                    <input name="message" placeholder="Message">
+                    <button>Send</button>
+                </form>
+                <button  id="send-location">Send location</button>
+
+                <label>
+                    <input style="display: none;" id="input-files" type="file" onchange="uploadFiles(this.files)">
+                    <img width="30" height="30" src="https://img.icons8.com/fluency/30/attach.png" alt="attach"/>
+                </label>
+
+                
+                    
+                
+            </div>
+        </div>
+    </div>
+
+    <script id="message-template" type="text/template">
+            <div class="message">
+                <p>
+                    <span class="message__name"><%=username%></span>
+                    <span class="message__meta"><%=createdAt%></span>
+                </p>
+                <p><%=message%></p>
+            </div>
+        </script>
+
+        <script id="image-link-template" type="text/template">
+            <div class="message">
+                <p>
+                    <span class="message__name"><%=username%></span>
+                    <span class="message__meta"><%=createdAt%></span>
+                </p>
+                <img width="150px" height="150px" src="data:image/jpg;base64,<%=imageUrl%>" alt="red dot" srcset="">
+            </div>
+        </script>
+    
+
+    <script id="location-message-template" type="text/template">
+            <div class="message">
+                <p>
+                    <span class="message__name"><%=username%></span>
+                    <span class="message__meta"><%=createdAt%></span>
+                </p>
+                <p><a href="<%=url%>" target="_blank">My current location</a></p>
+            </div>
+    </script>
+
+    <script id="sidebar-template" type="text/template">
+        <h1 class="room-title"><%=channelName%></h1>
+        <h2 class="list-title">Users</h2>
+        <ul class="users">
+            <% for(let i=0;i<users.length;i++) {%>
+                <li><%=users[i].username%></li>
+            <%}%>
+        </ul>
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/ejs.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+
+</html>
