@@ -52,7 +52,13 @@ const userSchema = new mongoose.Schema({
     gender : {
         type : String,
         required : false
-    },socketId :{
+    },
+    servers:[
+        {
+            serverName : {type : String}
+        }
+    ]
+    ,socketId :{
         type : String
     } 
 })

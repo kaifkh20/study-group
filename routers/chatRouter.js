@@ -9,9 +9,10 @@ const path = require('path')
 
 router.get('/chat',auth,async(req,res)=>{
 
-    const user = req.user
-    
-    const channelName = req.query.channelName
+   if(req.query.channelCode === undefined && req.query.userName === undefined){
+    res.redirect('/home')
+    // res.end()
+   }
 
     res.sendFile(path.join(__dirname,'../public/chat.html'))
 })
@@ -31,27 +32,37 @@ router.get('/chat',auth,async(req,res)=>{
 // })
 
 router.get('/chat/createChannel',auth,async(req,res)=>{
-    try{
-        const channelName = "BCA"
-    if(Channel.count({channelName})>0){
-        console.log('Already Created');
-        res.end()
-    }
-    let server = await Server.findOne({serverName:"Netaji Subhas University"})
-    const server_id = server._id
-    const channelCode = crypto.randomBytes(32).toString('base64url')
-    
-    const channel = new Channel({
-        server : server_id,
-        channelName,
-        channelCode,
-        'users' : req.user._id 
-    })
 
-    await channel.save()
-    await Server.findOneAndUpdate({_id:server_id},{"$push":{'channels':channel._id}})
+    res.render('channelForm',{
+        serverName : req.query.serverName
+    })
+})
+
+router.post('/chat/createChannel',auth,async(req,res)=>{
     
-    res.end()
+    console.log(req.body);
+    
+     try{
+        const channelName = req.body.channelName
+        if(await Channel.count({channelName})>0){
+            res.redirect('/chat/createChannel?serverName='+encodeURIComponent('Netaji Subhas University')+'&error='+encodeURIComponent('Channel Already Exists'))
+            res.end()
+        }
+        let server = await Server.findOne({serverName:req.body.serverName})
+        const server_id = server._id
+        const channelCode = crypto.randomBytes(32).toString('base64url')
+        
+        const channel = new Channel({
+            server : server_id,
+            channelName,
+            channelCode,
+            'users' : req.user._id 
+        })
+
+        await channel.save()
+        await Server.findOneAndUpdate({_id:server_id},{"$push":{'channels':channel._id}})
+        
+        res.redirect('/home/server?serverName='+encodeURIComponent(req.body.serverName))
     }catch(e){
         console.log(e);
     }

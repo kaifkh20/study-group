@@ -8,7 +8,11 @@ const {Server,Channels,Message} = require('../model/server')
 router.use(auth)
 
 router.get('/home',auth,async(req,res)=>{
-    res.render('home')
+    const user = req.user
+    console.log(user.servers);
+    res.render('home',{
+        user 
+    })
     // res.redirect('/chat?server='+encodeURIComponent('Netaji Subhas'))
 })
 
@@ -17,10 +21,12 @@ router.get('/home/server',auth,async(req,res)=>{
     const user = req.user
     // console.log(query);
     const server = await Server.findOne({serverName}).populate('channels')
+    const channels = server.channels
     // console.log(server.channels);
     res.render('channels',{
-        channels : server.channels,
-        username:user.username
+        serverName,
+        channels,
+        username : user.username
     })
 })
 

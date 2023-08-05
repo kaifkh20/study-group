@@ -41,10 +41,7 @@ const getUserFromChannel = async (channelCode)=>{
 
 io.on('connection',(socket)=>{
 
-     const getUserBySocketId = async(socketId)=>{
-        const user = await User.findOne({socketId})
-        return user
-    }
+    
 
     socket.on('join',async({userName,channelCode})=>{
         const user = await User.findOneAndUpdate({username:userName},{socketId:socket.id})
@@ -101,6 +98,15 @@ io.on('connection',(socket)=>{
         io.to(channelCode).emit('locationMessage', generateLocationMessage(userName,`https://google.com/maps?q=${lat},${long}`))
         callback()
     })
+
+
+    socket.on('uploadFiles',({file,channelCode,userName})=>{
+        // console.log(file.toString('base64'))
+        
+        io.to(channelCode).emit('imageLink',generateImageMessage(userName,file.toString('base64')))
+        
+    })
+
     // socket.on('send100Messages',({messages,channelCode})=>{
     //     io.to(channelCode).emit('render100Messages',messages)
         

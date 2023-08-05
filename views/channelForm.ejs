@@ -1,0 +1,41 @@
+<%- include('partials/header.ejs') %>
+
+<form action="/chat/createChannel" method="post">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <!----------------------- Login Container -------------------------->
+        <!-- -------------- ------ Right Box ----------------------------> 
+    
+          <div class="col-md-6 right-box">
+            <div class="row align-items-center">
+              <div class="header-text mb-4">
+                <h2>Create Channel</h2>
+              </div>
+              
+              <label for="serverName" class="col-form-label">Server Name</label>
+              <div class="input-group mb-3">
+                
+                <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="<%=serverName%>" id="serverName"
+                  name="serverName" value="<%=serverName%>">
+              </div>
+              <label for="channelName" class="col-form-label">Channel Name</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Channel Name" id="channelName"
+                  name="channelName" required>
+              </div>
+    
+              <div class="input-group mb-3">
+                <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Create Channel</button>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+
+
+</form>
+  <%- include('partials/footer.ejs') %>
+
+

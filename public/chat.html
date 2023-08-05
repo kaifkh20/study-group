@@ -14,7 +14,7 @@
         </div>
         <div class="chat__main">
             <div id="messages" class="chat__messages">
-                <a id="prev-message">Load Previous Message</a>
+                <a id="prev-message"><img width="75" height="75" src="https://img.icons8.com/clouds/100/circular-arrows.png" alt="circular-arrows"/></a>
             </div>
 
             
@@ -25,7 +25,7 @@
                     <input name="message" placeholder="Message">
                     <button>Send</button>
                 </form>
-                <button id="send-location">Send location</button>
+                <button  id="send-location">Send location</button>
 
                 <label>
                     <input style="display: none;" id="input-files" type="file" onchange="uploadFiles(this.files)">
@@ -52,10 +52,10 @@
         <script id="image-link-template" type="text/template">
             <div class="message">
                 <p>
-                    <span class="message__name">{{username}}</span>
-                    <span class="message__meta">{{createdAt}}</span>
+                    <span class="message__name"><%=username%></span>
+                    <span class="message__meta"><%=createdAt%></span>
                 </p>
-                <img width="150px" height="150px" src="data:image/jpg;base64,{{imageUrl}}" alt="red dot" srcset="">
+                <img width="150px" height="150px" src="data:image/jpg;base64,<%=imageUrl%>" alt="red dot" srcset="">
             </div>
         </script>
     
@@ -80,7 +80,7 @@
         </ul>
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/ejs.js"></script>

@@ -50,7 +50,7 @@ socket.on('message', (message) => {
     const html = ejs.render(messageTemplate, {
         username : message.username,
         message: message.text,
-        createdAt: message.createdAt
+        createdAt: moment(message.createdAt).format('h:mm:a')
     })
     $messages.insertAdjacentHTML('beforeend', html)
     autoscroll()
@@ -61,7 +61,7 @@ socket.on('locationMessage', (message) => {
     const html = ejs.render(locationMessageTemplate, {
         username : message.username,
         url: message.url,
-        createdAt: message.createdAt
+        createdAt: moment(message.createdAt).format('h:mm:a')
     })
     // console.log(html);
     $messages.insertAdjacentHTML('beforeend', html)
@@ -136,17 +136,29 @@ socket.on('render100Messages',(messages)=>{
         const html = ejs.render(messageTemplate, {
             username : messages[i].username,
             message: messages[i].body,
-            createdAt: messages[i].createdAt 
+            createdAt: moment(messages[i].createdAt).format('h:mm:a')
         })
         $messages.insertAdjacentHTML('beforeend', html)
         autoscroll()
     }
 })
 
-// socket.on('load100Messages',({messages})=>{
-//     socket.emit('send100Messages',{messages,channelCode})
-    
-// })
+socket.on('imageLink', (message) => {
+    console.log(message)
+    const html = ejs.render(imageLinkTemplate, {
+        username:message.username,
+        imageUrl: message.imageUrl,
+        createdAt: moment(message.createdAt).format('h:mm a')
+    })
+    $messages.insertAdjacentHTML('beforeend', html)
+    autoscroll()
+})
+
+
+const uploadFiles = (files) => {
+    const file = files[0]
+    socket.emit('uploadFiles',{file,channelCode,userName})
+}
 
 socket.emit('join',{userName,channelCode})
 

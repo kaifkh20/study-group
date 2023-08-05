@@ -39,8 +39,12 @@ userRouter.get('/signup',checkLogin,async(req,res)=>{
 
 userRouter.post('/signup',checkLogin,async(req,res)=>{
     const user = new User(req.body)
+
     try{
         await user.save()
+        await User.findOneAndUpdate({_id:user._id},{"$push":{servers:{serverName:req.body.university}}})
+        await User.findOneAndUpdate({_id:user._id},{"$push":{servers:{serverName:"Interest"}}})
+        
         res.redirect('/')
     }catch(e){
         const countUsername = await User.count({username : req.body.username});
