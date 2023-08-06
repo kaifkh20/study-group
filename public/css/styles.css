@@ -94,7 +94,7 @@ button:disabled {
     color: white;
     background: #333744;
     width: 225px;
-    overflow-y: scroll
+    overflow-y: scroll;
 }
 
 /* Chat styles */
@@ -166,7 +166,7 @@ button:disabled {
     font-weight: 400;
     font-size: 22px;
     background: #2c2f3a;
-    padding: 24px;   
+    padding: 10px;   
 }
 
 .list-title {
@@ -181,3 +181,31 @@ button:disabled {
     font-weight: 300;
     padding: 12px 24px 0 24px;
 }
+
+@media (max-width: 600px) {
+
+    .chat {
+     flex-direction: column; 
+     }
+     .chat__sidebar {
+       height:100px;
+       width: 100%;
+       display: flex; 
+       justify-content: space-between; 
+       padding: 0; 
+     }
+     
+     .users li {
+     display: flex;
+     flex-direction: row;
+       margin-right: 12px; 
+     }
+   
+     .chat__main {
+       height: 600px;
+     }
+     .compose{
+        margin-bottom: -30px;
+     }
+     
+   }
