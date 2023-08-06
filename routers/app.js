@@ -105,6 +105,12 @@ io.on('connection',(socket)=>{
         
     })
 
+    // socket.on('disconnect',async()=>{
+    //     const userName = await User.findOne({socketId:socket.id}).username
+    //     io.to(channelCode).emit('message',generateMessage("Bot",userName+"has gone offline!!"))
+    // })
+
+    
     // socket.on('send100Messages',({messages,channelCode})=>{
     //     io.to(channelCode).emit('render100Messages',messages)
         

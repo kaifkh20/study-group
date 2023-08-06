@@ -162,6 +162,9 @@ const uploadFiles = (files) => {
 
 socket.emit('join',{userName,channelCode})
 
+socket.on('offline',()=>{
+    socket.emit('sendMessage',{userName})
+})
 
 
 
