@@ -107,8 +107,8 @@ Study Buddy is developed and maintained by [Kaif Khan](https://github.com/kaifkh
 ---
 
 ## Features Needed
-[] Frontend Revamp
-[] Private Chat feature
-[] Students near you feature
-[] Voice channel feature
-[] Video channel feature
+- [ ] Frontend Revamp
+- [ ] Private Chat feature
+- [ ] Students near you feature
+- [ ] Voice channel feature
+- [ ] Video channel feature
