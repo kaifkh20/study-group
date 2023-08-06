@@ -99,10 +99,10 @@ Contributions to Study Buddy are welcome! If you find any bugs or have suggestio
 ## Author
 
 Study Buddy is developed and maintained by [Kaif Khan](https://github.com/kaifkh20),
-[Farhan Ahmad]()
-[Meer Alamgir]()
-[Syed Ataullah]()
-[Saif Khan]()
+[Farhan Ahmad](),
+[Meer Alamgir](),
+[Syed Ataullah](),
+[Saif Khan]().
 
 ---
 
