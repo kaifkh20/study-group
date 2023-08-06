@@ -41,7 +41,7 @@ git checkout develop
 5. Start the application:
 
 ```bash
-npm start
+npm run dev
 ```
 
 6. Open your web browser and visit `http://localhost:3000`  to access Study Buddy.
