@@ -22,7 +22,7 @@ router.get('/home/server',auth,async(req,res)=>{
     const user = req.user
     // console.log(query);
     const server = await Server.findOne({serverName}).populate('channels')
-    
+    // console.log(server);
     if(server===null){
         res.redirect('/home')
         res.end()
