@@ -39,25 +39,30 @@ router.post('/chat/createChannel',auth,async(req,res)=>{
     
      try{
         const channelName = req.body.channelName
-        if(await Channel.count({channelName})>0){
-            res.redirect('/chat/createChannel?serverName='+encodeURIComponent('Netaji Subhas University')+'&error='+encodeURIComponent('Channel Already Exists'))
+        const server = await Server.findOne({serverName:req.body.serverName});
+        
+        // console.log(await Channel.count({server:server._id,channelName}));
+        if( await Channel.count({server:server._id,channelName})>0){
+            res.redirect('/chat/createChannel?serverName='+encodeURIComponent(req.body.serverName)+'&error='+encodeURIComponent('Channel Already Exists'))
             res.end()
         }
-        let server = await Server.findOne({serverName:req.body.serverName})
-        const server_id = server._id
-        const channelCode = crypto.randomBytes(32).toString('base64url')
-        
-        const channel = new Channel({
-            server : server_id,
-            channelName,
-            channelCode,
-            'users' : req.user._id 
-        })
+        // let server = await Server.findOne({serverName:req.body.serverName})
+        else{
+            const server_id = server._id
+            const channelCode = crypto.randomBytes(32).toString('base64url')
+            
+            const channel = new Channel({
+                server : server_id,
+                channelName,
+                channelCode,
+                'users' : req.user._id 
+            })
 
-        await channel.save()
-        await Server.findOneAndUpdate({_id:server_id},{"$push":{'channels':channel._id}})
-        
-        res.redirect('/home/server?serverName='+encodeURIComponent(req.body.serverName))
+            await channel.save()
+            await Server.findOneAndUpdate({_id:server_id},{"$push":{'channels':channel._id}})
+            
+            res.redirect('/home/server?serverName='+encodeURIComponent(req.body.serverName))
+        }
     }catch(e){
         console.log(e);
     }
