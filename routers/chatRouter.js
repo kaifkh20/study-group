@@ -47,8 +47,9 @@ router.post('/chat/createChannel',auth,async(req,res)=>{
             res.redirect('/chat/createChannel?serverName='+encodeURIComponent(req.body.serverName)+'&error='+encodeURIComponent('Channel Already Exists'))
             res.end()
         }
-        let server = await Server.findOne({serverName:req.body.serverName})
-        const server_id = server._id
+
+        else{
+            const server_id = server._id
         const channelCode = crypto.randomBytes(32).toString('base64url')
         
         const channel = new Channel({
@@ -63,7 +64,8 @@ router.post('/chat/createChannel',auth,async(req,res)=>{
             
             res.redirect('/home/server?serverName='+encodeURIComponent(req.body.serverName))
         }
-    }catch(e){
+    }
+    catch(e){
         console.log(e);
     }
 })
