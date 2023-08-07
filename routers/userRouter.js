@@ -55,6 +55,8 @@ userRouter.post('/signup',checkLogin,async(req,res)=>{
 
     const avatar = randomAvatarGenerator.getRandomAvatar()
     
+    console.log(req.body.university);
+
     try{
         await user.save()
         let binary 
