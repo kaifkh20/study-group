@@ -78,7 +78,7 @@ socket.on('userData',(users)=>{
 })
 
 socket.on('roomData',({channelName,users})=>{
-    console.log(channelName,users);
+    // console.log(channelName,users);
     const html = ejs.render(sBTemplate,{channelName,users})
     document.querySelector('#sidebar').innerHTML = html
 })
