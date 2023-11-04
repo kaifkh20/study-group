@@ -1,12 +1,13 @@
-const express = require('express')
-const {User} = require('../model/user')
-const userRouter = express.Router()
-const auth = require('../auth/auth')
-const checkLogin = require('../auth/checkLogin')
-const Uni = require('../model/university')
-const randomAvatarGenerator = require("@fractalsoftware/random-avatar-generator");
-const svg2img = require('svg2img')
-const {Server,Channel,Message} = require('../model/server')
+import express from "express"
+import randomAvatarGenerator from '@fractalsoftware/random-avatar-generator'
+import svg2img from "svg2img"
+import { User } from "../model/user.js"
+import {auth} from "../auth/auth.js"
+import { checkLogin } from "../auth/checkLogin.js"
+import { Uni } from "../model/university.js"
+import { Server } from "../model/server.js"
+
+export const userRouter = express.Router()
 
 userRouter.get('/',checkLogin,async(req,res)=>{
     res.redirect('/login')
@@ -68,6 +69,8 @@ userRouter.post('/signup',checkLogin,async(req,res)=>{
         await User.findOneAndUpdate({_id:user._id},{"$push":{servers:{serverName:req.body.university}}})
         await User.findOneAndUpdate({_id:user._id},{"$push":{servers:{serverName:"Interests(Global)"}}})
         
+        
+        
         res.redirect('/')
     }catch(e){
         const countUsername = await User.count({username : req.body.username});
@@ -87,6 +90,8 @@ userRouter.post('/login',checkLogin,async(req,res)=>{
         const user = await User.findByCredentials(req.body.username,req.body.password)
         const token = await user.getAuthToken()
         res.cookie('token',token,{httpOnly:true,secure:true})
+        await client.hSet('User',{...user})
+        // console.log(JSON.stringify(await client.json.get("user")))
         res.redirect('/info')  
     }catch(e){
         console.log(e);
@@ -127,5 +132,3 @@ userRouter.get('/logout',auth,async(req,res)=>{
     res.clearCookie('token')
     res.redirect('/')
 })
-
-module.exports = {userRouter}

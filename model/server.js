@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const User = require('../model/user')
+import mongoose from 'mongoose'
+import { User } from '../model/user.js'
 
 const messageSchema = new mongoose.Schema({
     username:{
@@ -57,9 +57,8 @@ const serverSchema = new mongoose.Schema({
 
 
 
-const Server = mongoose.model('Server',serverSchema,'Server')
-const Channel = mongoose.model('Channel',channelSchema,'Channel')
-const Message = mongoose.model('Message',messageSchema,'Message')
+export const Server = mongoose.model('Server',serverSchema,'Server')
+export const Channel = mongoose.model('Channel',channelSchema,'Channel')
+export const Message = mongoose.model('Message',messageSchema,'Message')
 
-module.exports = {Server,Channel,Message}
 

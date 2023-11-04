@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const uniSchema = new mongoose.Schema({
     name :{
@@ -16,6 +16,4 @@ const uniSchema = new mongoose.Schema({
     }
 })
 
-const  Uni = new mongoose.model('Uni',uniSchema)
-
-module.exports = Uni
+export const Uni = new mongoose.model('Uni',uniSchema)

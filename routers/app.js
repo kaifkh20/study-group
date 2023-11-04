@@ -1,27 +1,29 @@
-const express = require('express')
-const mongoose = require('mongoose')
+import express from 'express'
+import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import http from 'node:http'
+import {dirname,join} from 'node:path'
+import socketio from 'socket.io'
+import Filter from 'bad-words'
+import dotenv from 'dotenv'
+dotenv.config('./')
+import { fileURLToPath } from 'node:url'
+
+import { homeRouter } from './homeRouter.js'
+import { chatRouter } from './chatRouter.js'
+import { userRouter } from './userRouter.js'
+import { Channel,Message } from '../model/server.js'
+import { User } from '../model/user.js'
+import {generateMessage, generateLocationMessage, generateImageMessage } from '../utils/messages.js'
+
 const app = express()
-const {userRouter} = require('./userRouter')
-const homeRouter = require('./homeRouter')
-const chatRouter = require('./chatRouter')
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
-const path = require('path')
-const cors = require('cors')
-const http = require('http')
-const socketio = require('socket.io')
-const Filter = require('bad-words')
-require('dotenv').config('./')
-const {Server,Channel,Message} = require('../model/server')
-const {User} = require('../model/user')
-const auth = require('../auth/auth')
 
-const { generateMessage, generateLocationMessage,generateImageMessage} = require('../utils/messages')
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-
-
-const publicDirectoryPath = path.join(__dirname, '../public')
-const server = http.createServer(app)
+const publicDirectoryPath = join(__dirname, '../public')
+export const server = http.createServer(app)
 const io = socketio(server)
 
 app.use(express.json())
@@ -124,6 +126,3 @@ io.on('connection',(socket)=>{
 mongoose.connect(`mongodb+srv://kaiffkhann292:${process.env.PASSWORD_ATLAS}@clusterstudybuddy.kmzfdq7.mongodb.net/?retryWrites=true&w=majority`,{
     useNewUrlParser : true
 })
-
-
-module.exports = server

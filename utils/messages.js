@@ -1,4 +1,4 @@
-const generateMessage = (username,text) => {
+export const generateMessage = (username,text) => {
     return {
         username,
         text,
@@ -6,7 +6,7 @@ const generateMessage = (username,text) => {
     }
 }
 
-const generateLocationMessage = (username,url) => {
+export const generateLocationMessage = (username,url) => {
     return {
         username,
         url,
@@ -14,17 +14,10 @@ const generateLocationMessage = (username,url) => {
     }
 }
 
-const generateImageMessage = (username,imageUrl) => {
+export const generateImageMessage = (username,imageUrl) => {
     return{
         username,
         imageUrl,
         createdAt: new Date().getTime()
     }
-}
-
-
-module.exports = {
-    generateMessage,
-    generateLocationMessage,
-    generateImageMessage
 }
