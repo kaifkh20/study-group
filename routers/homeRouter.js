@@ -1,13 +1,12 @@
-const express = require('express')
-const {User} = require('../model/user')
-const router = express.Router()
-const auth = require('../auth/auth')
-const checkLogin = require('../auth/checkLogin')
-const {Server,Channels,Message} = require('../model/server')
+import express from 'express'
+import {auth} from '../auth/auth.js'
+import { Server } from '../model/server.js'
 
-router.use(auth)
+export const homeRouter = express.Router()
 
-router.get('/home',auth,async(req,res)=>{
+homeRouter.use(auth)
+
+homeRouter.get('/home',auth,async(req,res)=>{
     const user = req.user
     // console.log(user.servers);
     res.render('home',{
@@ -16,7 +15,7 @@ router.get('/home',auth,async(req,res)=>{
     // res.redirect('/chat?server='+encodeURIComponent('Netaji Subhas'))
 })
 
-router.get('/home/server',auth,async(req,res)=>{
+homeRouter.get('/home/server',auth,async(req,res)=>{
     const serverName = req.query.serverName
     
     const user = req.user
@@ -38,8 +37,3 @@ router.get('/home/server',auth,async(req,res)=>{
 
     
 })
-
-module.exports = router
-
-
-

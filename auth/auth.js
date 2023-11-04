@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken')
-const {User} = require('../model/user')
 
+import jwt from 'jsonwebtoken'
+import { User } from '../model/user.js'
 
-const auth = async(req,res,next)=>{
+export const auth = async(req,res,next)=>{
     try{
         const token = req.cookies.token
         const decoded = jwt.verify(token,process.env.SECRET_KEY)
@@ -18,5 +18,3 @@ const auth = async(req,res,next)=>{
         res.redirect('/')
     }
 }
-
-module.exports = auth

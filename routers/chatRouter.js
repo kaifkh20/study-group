@@ -1,15 +1,17 @@
-const express = require('express')
-const {User} = require('../model/user')
-const router = express.Router()
-const auth = require('../auth/auth')
-const checkLogin = require('../auth/checkLogin')
-const crypto = require('crypto')
-const {Server,Channel,Message} = require('../model/server')
-const path = require('path')
-const { ObjectId } = require('mongodb')
-const base64url = require('base64url')
 
-router.get('/chat',auth,async(req,res)=>{
+import express from 'express'
+import {auth} from '../auth/auth.js'
+import crypto from 'node:crypto'
+import { Server,Channel } from '../model/server.js'
+import {join,dirname} from 'node:path'
+import { ObjectId } from 'mongodb'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export const chatRouter = express.Router()
+
+chatRouter.get('/chat',auth,async(req,res)=>{
 
    if(req.query.channelCode === undefined && req.query.userName === undefined){
     res.redirect('/home')
@@ -23,18 +25,18 @@ router.get('/chat',auth,async(req,res)=>{
 //         res.redirect()
 //    }
 
-    res.sendFile(path.join(__dirname,'../public/chat.html'))
+    res.sendFile(join(__dirname,'../public/chat.html'))
 })
 
 
-router.get('/chat/createChannel',auth,async(req,res)=>{
+chatRouter.get('/chat/createChannel',auth,async(req,res)=>{
 
     res.render('channelForm',{
         serverName : req.query.serverName
     })
 })
 
-router.post('/chat/createChannel',auth,async(req,res)=>{
+chatRouter.post('/chat/createChannel',auth,async(req,res)=>{
     
     // console.log(req.body);
     
@@ -59,18 +61,19 @@ router.post('/chat/createChannel',auth,async(req,res)=>{
             'users' : req.user._id 
         })
 
+
             await channel.save()
             await Server.findOneAndUpdate({_id:server_id},{"$push":{'channels':channel._id}})
             
             res.redirect('/home/server?serverName='+encodeURIComponent(req.body.serverName))
         }
-    }
-    catch(e){
+        
+    }catch(e){
         console.log(e);
     }
 })
 
-router.post('/joinChannel',auth,async(req,res)=>{
+chatRouter.post('/joinChannel',auth,async(req,res)=>{
     try{
         console.log(req.query);
         const user = req.user
@@ -90,9 +93,8 @@ router.post('/joinChannel',auth,async(req,res)=>{
     }
 })
 
-router.get('/test',async(req,res)=>{
+chatRouter.get('/test',async(req,res)=>{
    const users = await Channel.findOne({channelCode:'l3sPwewHwlN2nZ1WyPuox8kfKQ6uYkTRtzIeXk_vY-Q'}).populate('users')
    console.log(users.users);
 })
 
-module.exports = router
