@@ -1,6 +1,6 @@
 
 
-const socket = io('127.0.0.1:3000')
+const socket = io()
 // const User = require('.../model/server')
 // Elements
 const $messageForm = document.querySelector('#message-form')
@@ -78,7 +78,7 @@ socket.on('userData',(users)=>{
 })
 
 socket.on('roomData',({channelName,users})=>{
-    console.log(channelName,users);
+    // console.log(channelName,users);
     const html = ejs.render(sBTemplate,{channelName,users})
     document.querySelector('#sidebar').innerHTML = html
 })
